@@ -1,0 +1,89 @@
+<html>
+   <head>
+      <meta charset="UTF-8">
+      <title>DbHiPer</title>
+      <!-- https://electronjs.org/docs/tutorial/security#csp-meta-tag -->
+      <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet"> 
+      <!--Importo o arquivo styles.css que criei para estilizar essa janela -->
+      <link rel="stylesheet" href="styles.css">
+      </style>
+   </head>
+   <body>
+     
+      
+      <section class="site">
+         <header>
+            <h1>Dbhiper</h1>
+            <h3>Altere o hibernate e persistence</h3>
+         </header>
+         <main>
+            <form id="form">
+               <label for="dir" id="dir-label"><span>Selecione a pasta do projeto</span></label>
+               <input id="dir" type="file" webkitdirectory style="visibility:hidden;" />
+               
+               <input id="host" placeholder="Ip" value="10.1.1.1" type="text" />
+               <input id="db" placeholder="Banco" value="paciente" type="text" />
+               <input id="pass" placeholder="Password" value="@isgh#upa" type="text" />
+               <input id="usuer" placeholder="Usuário" value="postgres" type="text" />
+
+            </form>
+            <button onclick="addLoader()">Alterar arquivos</button>
+         </main>
+         <footer>
+
+         </footer>
+      </section>
+
+      <div id="loader">
+
+         <div class="loader-inner">
+            <svg version="1.1" id="L6" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
+               <rect fill="none" stroke="#fff" stroke-width="4" x="25" y="25" width="50" height="50">
+               <animateTransform
+                  attributeName="transform"
+                  dur="0.5s"
+                  from="0 50 50"
+                  to="180 50 50"
+                  type="rotate"
+                  id="strokeBox"
+                  attributeType="XML"
+                  begin="rectBox.end"/>
+               </rect>
+               <rect x="27" y="27" fill="#fff" width="46" height="50">
+               <animate
+                  attributeName="height"
+                  dur="1.3s"
+                  attributeType="XML"
+                  from="50" 
+                  to="0"
+                  id="rectBox" 
+                  fill="freeze"
+                  begin="0s;strokeBox.end"/>
+               </rect>
+            </svg>
+         </div>
+      </div>
+
+      <script src="services/data_service.js" type="text/javascript"></script>
+      <script src="services/loader_service.js" type="text/javascript"></script>
+      <script src="services/folder_service.js" type="text/javascript"></script>
+      <script type="text/javascript">
+        (function() {
+        
+         document.getElementById('dir').addEventListener('change', () => {
+            addLoader();
+            setTimeout(() => {
+               setNameFolder();  
+            }, 500); 
+         })
+        })();
+      </script>
+        
+      
+   </body>
+</html>
