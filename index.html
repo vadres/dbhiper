@@ -22,16 +22,17 @@
          </header>
          <main>
             <form id="form">
-               <label for="dir" id="dir-label"><span>Selecione a pasta do projeto</span></label>
-               <input id="dir" type="file" webkitdirectory style="visibility:hidden;" />
+               <input id="folder" type="hidden" />
+               <label for="dirs" id="dir-label"><span>Selecione a pasta do projeto</span></label>
+               <input id="dirs" type="file" webkitdirectory style="visibility:hidden;" />
                
-               <input id="host" placeholder="Ip" value="10.1.1.1" type="text" />
+               <input id="host" placeholder="Ip" value="10.1.1.1:5432" type="text" />
                <input id="db" placeholder="Banco" value="paciente" type="text" />
                <input id="pass" placeholder="Password" value="@isgh#upa" type="text" />
-               <input id="usuer" placeholder="Usuário" value="postgres" type="text" />
+               <input id="user" placeholder="Usuário" value="postgres" type="text" />
 
             </form>
-            <button onclick="addLoader()">Alterar arquivos</button>
+            <button onclick="addLoader(); dbhiper();">Alterar arquivos</button>
          </main>
          <footer>
 
@@ -72,16 +73,16 @@
       <script src="services/data_service.js" type="text/javascript"></script>
       <script src="services/loader_service.js" type="text/javascript"></script>
       <script src="services/folder_service.js" type="text/javascript"></script>
+      <script src="services/dbhiper_service.js" type="text/javascript"></script>
       <script type="text/javascript">
-        (function() {
-        
-         document.getElementById('dir').addEventListener('change', () => {
-            addLoader();
-            setTimeout(() => {
-               setNameFolder();  
-            }, 500); 
-         })
-        })();
+         (function() {
+            document.getElementById('dirs').addEventListener('change', () => {
+               addLoader();
+               setTimeout(() => {
+                  setNameFolder();  
+               }, 500); 
+            })
+         })();
       </script>
         
       
