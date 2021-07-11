@@ -1,62 +1,27 @@
 const replace = require('replace-in-file');
+const regexUtil = require('./util/regex');
 
-const hibernate = (pass, user, folder, host, db) => {
-    replaceImpl(
-        /<property name="(hibernate\.)?show_sql"(?!.*>)>(?!.*<)<\/property>/,
-        ` <property name="hibernate.show_sql">false</property>` 
-    ); 
-
-    relaceImpl(
-        /<property name=\"(hibernate\.)?connection\.url\"(?!.*>)>(?!.*<)<\/property(?!.*>)>/,
-        `<property name="hibernate.connection.url\">jdbc:postgresql://${host}/${db}</property>`
-    );
-
-    relaceImpl(
-        /<property name=\"(hibernate\.)?connection\.password\"(?!.*>)>(?!.*<)<\/property(?!.*>)>/, 
-        `<property name="hibernate.connection.password">${pass}</property>`
-    );
-    
-    relaceImpl(
-        /<property name=\"(hibernate\.)?connection\.username\"(?!.*>)>(?!.*<)<\/property(?!.*>)>/,
-        `<property name="hibernate.connection.username">${user}</property>`
-    );
-    
+const hibernate = async (pass, user, folder, host, db) => {
+    await replaceImpl(regexUtil.hibernate.show_sql()); 
+    await replaceImpl(regexUtil.hibernate.url(host,db));
+    await replaceImpl(regexUtil.hibernate.password(pass));    
+    await replaceImpl(regexUtil.hibernate.username(user));
 }
 
-const persistence = (pass, user, folder, host, db) => {
-    replaceImpl(
-        /<property name="hibernate.show_sql"(?!.*>)\/>/,
-        `<property name="hibernate.show_sql" value="false"/>` 
-    )
-
-    relaceImpl(
-        /<jar-file>.*seguranca\.jar<\/jar-file>/, 
-        `<jar-file>${folder}\\WebContent\\WEB-INF\\classes\\lib\\seguranca.jar</jar-file>`
-    );
-    
-    relaceImpl(
-        /<property name=\"(hibernate\.)?connection\.url\"(?!.*>)>(?!.*<)<\/property(?!.*>)>/,
-        `<property name="hibernate.connection.url\">jdbc:postgresql://${host}/${db}</property>`
-    );
-
-    relaceImpl(
-        /<property name=\"(hibernate\.)?connection\.password\"(?!.*>)>(?!.*<)<\/property(?!.*>)>/, 
-        `<property name="hibernate.connection.password">${pass}</property>`
-    );
-    
-    relaceImpl(
-        /<property name=\"(hibernate\.)?connection\.username\"(?!.*>)>(?!.*<)<\/property(?!.*>)>/,
-        `<property name="hibernate.connection.username">${user}</property>`
-    );
-    
+const persistence = async (pass, user, folder, host, db) => {
+    await replaceImpl(regexUtil.persistence.show_sql()); 
+    await replaceImpl(regexUtil.persistence.url(host,db));
+    await replaceImpl(regexUtil.persistence.password(pass));    
+    await replaceImpl(regexUtil.persistence.username(user));
+    await replaceImpl(regexUtil.persistence.seguranca(folder));
 }
 
-const relaceImpl = async (from, to) => {
+const replaceImpl = async ({ from, to }) => {
     try {
         const options = {
             files: [
                 `${document.getElementById("folder").value}/src/hibernate.cfg.xml`,
-                `${document.getElementById("folder").value}/src/WEB-INF/persistence.xml`,
+                `${document.getElementById("folder").value}/src/META-INF/persistence.xml`,
             ]
         };
 
